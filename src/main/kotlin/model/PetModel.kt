@@ -20,6 +20,8 @@ interface PetModel {
     fun getUpdatedLocation(moveSpeed: Int): Location
 
     fun getNextState(): PetState
+
+    fun getNextEmotion(): Emotion
 }
 
 interface PetModelViewModel: BaseObjectViewModel {

@@ -9,10 +9,12 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import utils.Location.Companion.getOrientationFromLocations
 import utils.PetState
+import java.util.Timer
 
 const val MOVE_SPEED_PX_PER_30_MS = 1
 const val TICK_DURATION_IN_MS = 30L
 const val STATE_PERIOD_IN_MS = 10000L
+const val EMOTION_PERIOD_IN_MS = 25000L
 
 class DesktopPetController(petModels: List<BasePet>) {
     private val pets: Map<String, Pair<PetModel, PetActions>> = petModels.associate { basePet ->
@@ -23,7 +25,7 @@ class DesktopPetController(petModels: List<BasePet>) {
             petView.display(true)
             updateLocationOnTickWhenMoving(petModel, petView)
             updateStatePeriodically(petModel, petView)
-            //updateEmotePeriodically(petModel, petView)
+            updateEmotePeriodically(petModel, petView)
         }
     }
 
@@ -45,15 +47,14 @@ class DesktopPetController(petModels: List<BasePet>) {
     }
 
     private fun updateEmotePeriodically(petModel: PetModel, petView: PetActions) {
-        //TODO
         val updateEmoteRunnable = {
-            petModel.state = petModel.getNextState()
-            if (petModel.state == PetState.MOVING) {
-                petModel.orientation = getOrientationFromLocations(petModel.currentLocation, petModel.destination)
+            petModel.emotion ?: run {
+                petModel.emotion = petModel.getNextEmotion()
+                petView.renderSpriteWithEmote()
             }
-            petView.renderSpriteWithEmote()
+            Unit
         }
-        scheduleTaskPeriodically(updateEmoteRunnable, STATE_PERIOD_IN_MS)
+        scheduleTaskPeriodically(updateEmoteRunnable, EMOTION_PERIOD_IN_MS, 15000)
     }
 
     private fun scheduleTaskPeriodically(runnable: Runnable, periodDurationInMS: Long, delayInMS: Long = 0L) {

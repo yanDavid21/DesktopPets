@@ -8,7 +8,7 @@ import utils.PetState
 
 class Trekker() : BasePet("Trekker") {
     override var quotes: List<String> = super.quotes + listOf("trekker specific")
-    override var emotion: Emotion? = Emotion.LOVED
+    override var emotion: Emotion? = Emotion.HUNGRY
 
     override fun getSprite(): URL {
         return if (orientation == Orientation.LEFT) {

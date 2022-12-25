@@ -23,5 +23,6 @@ enum class Orientation {
 enum class Emotion {
     CATFACE,
     LOVED,
-    SLEEPY
+    SLEEPY,
+    HUNGRY
 }

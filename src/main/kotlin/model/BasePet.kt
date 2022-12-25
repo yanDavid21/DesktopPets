@@ -43,11 +43,16 @@ abstract class BasePet(override val name: String): PetModel, PetModelViewModel {
         return nextState
     }
 
+    override fun getNextEmotion(): Emotion {
+        return (Emotion.values().toSet() - setOf(Emotion.SLEEPY)).random()
+    }
+
     override fun getEmote(): URL? {
         return when (emotion) {
             Emotion.CATFACE -> javaClass.getResource("/emotes/catface.png")
             Emotion.LOVED -> javaClass.getResource("/emotes/heart.png")
             Emotion.SLEEPY -> javaClass.getResource("/emotes/sleeping.png")
+            Emotion.HUNGRY -> javaClass.getResource("/emotes/beef.png")
             null -> null
         }
     }
