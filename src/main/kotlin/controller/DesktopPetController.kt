@@ -16,9 +16,9 @@ const val TICK_DURATION_IN_MS = 30L
 const val STATE_PERIOD_IN_MS = 10000L
 const val EMOTION_PERIOD_IN_MS = 25000L
 
-class DesktopPetController(petModels: List<BasePet>) {
+class DesktopPetController(petModels: List<BasePet>): UserActions {
     private val pets: Map<String, Pair<PetModel, PetActions>> = petModels.associate { basePet ->
-        Pair(basePet.name, Pair(basePet, PetView(basePet))) }
+        Pair(basePet.name, Pair(basePet, PetView(basePet, this))) }
 
     fun start() {
         pets.values.forEach { (petModel, petView) ->
@@ -26,6 +26,14 @@ class DesktopPetController(petModels: List<BasePet>) {
             updateLocationOnTickWhenMoving(petModel, petView)
             updateStatePeriodically(petModel, petView)
             updateEmotePeriodically(petModel, petView)
+        }
+    }
+
+    override fun pet(petName: String) {
+        pets[petName]?.let {
+            val (first, second) = it
+            first.emotion = Emotion.LOVED
+            second.renderSpriteWithEmote()
         }
     }
 
@@ -72,4 +80,6 @@ class DesktopPetController(petModels: List<BasePet>) {
             petView.renderSpriteWithEmote()
         }
     }
+
+
 }

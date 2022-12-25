@@ -25,4 +25,11 @@ class Trekker() : BasePet("Trekker") {
             }
         }
     }
+
+    override fun getEmote(): URL? {
+        return when (emotion) {
+            Emotion.PLAYFUL -> javaClass.getResource("/emotes/teddy.png")
+            else -> super.getEmote()
+        }
+    }
 }

@@ -1,9 +1,8 @@
 package view
 
+import controller.UserActions
 import model.BaseObjectViewModel
-import java.awt.Color
-import java.awt.Component
-import java.awt.Dimension
+import java.awt.*
 import java.net.URL
 import javax.swing.Box
 import javax.swing.BoxLayout
@@ -15,7 +14,7 @@ const val DEFAULT_IMAGE_WIDTH = 40
 const val DEFAULT_IMAGE_HEIGHT = 40
 val transparentBackground = Color(0, 0, 0, 0)
 
-open class BaseViewObject(private val viewModel: BaseObjectViewModel, protected val imageWidth: Int = DEFAULT_IMAGE_WIDTH,
+open class BaseViewObject(private val viewModel: BaseObjectViewModel, protected val controller: UserActions, protected val imageWidth: Int = DEFAULT_IMAGE_WIDTH,
                           protected val imageHeight: Int = DEFAULT_IMAGE_HEIGHT): ViewObject {
     protected val frame = JFrame()
 
@@ -23,6 +22,7 @@ open class BaseViewObject(private val viewModel: BaseObjectViewModel, protected 
         this.initializeJFrame()
         this.renderSprite()
         this.renderLocation()
+        this.addCustomCursor()
     }
 
     override fun display(shouldDisplay: Boolean) {
@@ -30,7 +30,7 @@ open class BaseViewObject(private val viewModel: BaseObjectViewModel, protected 
     }
 
     override fun renderSprite() {
-        val newSprite = getScaledImage(viewModel.getSprite())
+        val newSprite = getScaledSprite(viewModel.getSprite())
         frame.contentPane.removeAll()
         frame.contentPane.add(newSprite)
         frame.contentPane.revalidate()
@@ -42,11 +42,15 @@ open class BaseViewObject(private val viewModel: BaseObjectViewModel, protected 
         frame.setLocation(xLocation.toInt() - (imageWidth / 2), yLocation.toInt() - imageHeight)
     }
 
-    protected fun getScaledImage(imageURL:URL?): Component {
+    protected fun getScaledSprite(imageURL:URL?): Component {
         if (imageURL == null ) return Box.createRigidArea(Dimension(0, imageHeight))
-        val image = ImageIcon(imageURL).image
-        val scaledImage = image.getScaledInstance(imageWidth, imageHeight, java.awt.Image.SCALE_DEFAULT)
+        val scaledImage = getScaledImage(imageURL)
         return JLabel(ImageIcon(scaledImage))
+    }
+
+    private fun getScaledImage(imageURL: URL, width: Int = imageWidth, height: Int= imageHeight): Image {
+        val image = ImageIcon(imageURL).image
+        return image.getScaledInstance(width, height, Image.SCALE_DEFAULT)
     }
 
     private fun initializeJFrame() {
@@ -59,6 +63,13 @@ open class BaseViewObject(private val viewModel: BaseObjectViewModel, protected 
         frame.layout =  BoxLayout(frame.contentPane, BoxLayout.Y_AXIS)
         frame.contentPane.preferredSize = Dimension(500, 500)
         frame.pack()
+    }
+
+    private fun addCustomCursor() {
+        frame.rootPane.cursor = Toolkit.getDefaultToolkit().createCustomCursor(
+            getScaledImage(javaClass.getResource("/cursor.png")!!, imageWidth / 2, imageWidth / 2),
+            Point(imageWidth / 2, imageWidth / 2), "Custom cursor, a pixel art finger pointing."
+        )
     }
 
 }

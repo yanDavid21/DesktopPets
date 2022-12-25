@@ -53,6 +53,9 @@ abstract class BasePet(override val name: String): PetModel, PetModelViewModel {
             Emotion.LOVED -> javaClass.getResource("/emotes/heart.png")
             Emotion.SLEEPY -> javaClass.getResource("/emotes/sleeping.png")
             Emotion.HUNGRY -> javaClass.getResource("/emotes/beef.png")
+            Emotion.PLAYFUL -> javaClass.getResource("/emotes/game.png")
+            Emotion.HAPPY -> javaClass.getResource("/emotes/happy.png")
+            Emotion.HAPPY2 -> javaClass.getResource("/emotes/happy_2.png")
             null -> null
         }
     }

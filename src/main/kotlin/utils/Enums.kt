@@ -24,5 +24,8 @@ enum class Emotion {
     CATFACE,
     LOVED,
     SLEEPY,
-    HUNGRY
+    HUNGRY,
+    PLAYFUL,
+    HAPPY,
+    HAPPY2
 }
