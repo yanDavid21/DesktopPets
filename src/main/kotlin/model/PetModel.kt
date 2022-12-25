@@ -18,5 +18,9 @@ interface PetModel {
     val options: List<Options>
 
     fun nextQuote(): String?
+
+    fun getUpdatedLocation(moveSpeed: Int): Location
+
+    fun getNextState(): PetState
 }
 

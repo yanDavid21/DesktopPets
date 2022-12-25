@@ -18,17 +18,26 @@ open class BaseViewObject(private val viewModel: BaseObjectViewModel, private va
         background =  transparentBackground
         isAlwaysOnTop = true
         title = viewModel.name
-    }
-
-    override fun updateLocation() {
-        val (xLocation, yLocation) = viewModel.currentLocation
-        setBounds(xLocation.toInt() - (imageWidth / 2), yLocation.toInt() - imageHeight, imageWidth, imageHeight)
+        this.iconImage = ImageIcon(javaClass.getResource("/fav_icon.png")).image
+        this.updateContentPane()
+        this.renderLocation()
     }
 
     override fun display(shouldDisplay: Boolean) {
-        this.updateContentPane()
-        this.updateLocation()
         isVisible = shouldDisplay
+    }
+
+    override fun renderSprite() {
+        this.updateContentPane()
+    }
+
+    override fun renderLocation() {
+        this.updateLocation()
+    }
+
+    private fun updateLocation() {
+        val (xLocation, yLocation) = viewModel.currentLocation
+        setBounds(xLocation.toInt() - (imageWidth / 2), yLocation.toInt() - imageHeight, imageWidth, imageHeight)
     }
 
     private fun getScaledGif(): JLabel {
