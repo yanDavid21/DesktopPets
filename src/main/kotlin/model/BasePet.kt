@@ -1,19 +1,15 @@
 package model
 
-import utils.Location
+import utils.*
 import utils.Location.Companion.getRandomTaskbarLocation
 import utils.Location.Companion.getStepLocation
-import utils.Options
-import utils.Orientation
-import utils.PetState
-import utils.getNextInList
 import java.net.URL
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter.ofLocalizedDateTime
 import java.time.format.FormatStyle
 
-abstract class BasePet(override val name: String): PetModel, BaseObjectViewModel {
+abstract class BasePet(override val name: String): PetModel, PetModelViewModel {
     override var currentLocation = Location.bottomCenterOfScreen()
     override var destination = Location.bottomCenterOfScreen()
     override var state = PetState.SLEEPING
@@ -22,6 +18,7 @@ abstract class BasePet(override val name: String): PetModel, BaseObjectViewModel
     override val food = getStandardFoods()
     override val options = getStandardOptions()
     override var orientation = Orientation.LEFT
+    override var emotion: Emotion? = null
 
     override fun nextQuote(): String? {
         val (first, newList) = quotes.getNextInList()
@@ -44,6 +41,15 @@ abstract class BasePet(override val name: String): PetModel, BaseObjectViewModel
             destination = getRandomTaskbarLocation()
         }
         return nextState
+    }
+
+    override fun getEmote(): URL? {
+        return when (emotion) {
+            Emotion.CATFACE -> javaClass.getResource("/emotes/catface.png")
+            Emotion.LOVED -> javaClass.getResource("/emotes/heart.png")
+            Emotion.SLEEPY -> javaClass.getResource("/emotes/sleeping.png")
+            null -> null
+        }
     }
 
 

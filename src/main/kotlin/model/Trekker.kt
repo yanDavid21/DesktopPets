@@ -1,5 +1,6 @@
 package model
 
+import utils.Emotion
 import utils.Orientation
 import java.net.URL
 import utils.PetState
@@ -7,6 +8,7 @@ import utils.PetState
 
 class Trekker() : BasePet("Trekker") {
     override var quotes: List<String> = super.quotes + listOf("trekker specific")
+    override var emotion: Emotion? = Emotion.LOVED
 
     override fun getSprite(): URL {
         return if (orientation == Orientation.LEFT) {

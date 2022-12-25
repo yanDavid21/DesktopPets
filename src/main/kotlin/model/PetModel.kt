@@ -1,9 +1,6 @@
 package model
 
-import utils.Location
-import utils.Options
-import utils.Orientation
-import utils.PetState
+import utils.*
 import java.net.URL
 
 interface PetModel {
@@ -16,11 +13,17 @@ interface PetModel {
     val food: List<URL>
     val options: List<Options>
     var orientation: Orientation
+    var emotion: Emotion?
 
     fun nextQuote(): String?
 
     fun getUpdatedLocation(moveSpeed: Int): Location
 
     fun getNextState(): PetState
+}
+
+interface PetModelViewModel: BaseObjectViewModel {
+    val emotion: Emotion?
+    fun getEmote(): URL?
 }
 

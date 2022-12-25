@@ -2,6 +2,7 @@ package controller
 
 import model.BasePet
 import model.PetModel
+import utils.Emotion
 import view.PetActions
 import view.PetView
 import java.util.concurrent.Executors
@@ -22,6 +23,7 @@ class DesktopPetController(petModels: List<BasePet>) {
             petView.display(true)
             updateLocationOnTickWhenMoving(petModel, petView)
             updateStatePeriodically(petModel, petView)
+            //updateEmotePeriodically(petModel, petView)
         }
     }
 
@@ -36,9 +38,22 @@ class DesktopPetController(petModels: List<BasePet>) {
             if (petModel.state == PetState.MOVING) {
                 petModel.orientation = getOrientationFromLocations(petModel.currentLocation, petModel.destination)
             }
-            petView.renderSprite()
+            petModel.emotion = if (petModel.state == PetState.SLEEPING) Emotion.SLEEPY else null
+            petView.renderSpriteWithEmote()
         }
         scheduleTaskPeriodically(updateStateRunnable, STATE_PERIOD_IN_MS, 10000)
+    }
+
+    private fun updateEmotePeriodically(petModel: PetModel, petView: PetActions) {
+        //TODO
+        val updateEmoteRunnable = {
+            petModel.state = petModel.getNextState()
+            if (petModel.state == PetState.MOVING) {
+                petModel.orientation = getOrientationFromLocations(petModel.currentLocation, petModel.destination)
+            }
+            petView.renderSpriteWithEmote()
+        }
+        scheduleTaskPeriodically(updateEmoteRunnable, STATE_PERIOD_IN_MS)
     }
 
     private fun scheduleTaskPeriodically(runnable: Runnable, periodDurationInMS: Long, delayInMS: Long = 0L) {
@@ -50,20 +65,10 @@ class DesktopPetController(petModels: List<BasePet>) {
         val newLocation = petModel.getUpdatedLocation(MOVE_SPEED_PX_PER_30_MS)
         if (newLocation != petModel.currentLocation) {
             petModel.currentLocation = newLocation
-            petView.renderLocation()
+            petView.renderLocationWithEmote()
         } else {
             petModel.state = PetState.IDLE
-            petView.renderSprite()
+            petView.renderSpriteWithEmote()
         }
     }
-
-    private fun updateState(petModel: PetModel, petView: PetActions) {
-
-    }
-
-    private fun updateSprite(petModel: PetModel, petView: PetActions) {
-
-    }
-
-
 }
