@@ -5,6 +5,7 @@ import Location.Companion.getRandomTaskbarLocation
 import Location.Companion.getStepLocation
 import Location.Companion.screenSize
 import Options
+import Orientation
 import PetState
 import getNextInList
 import java.net.URL
@@ -21,6 +22,7 @@ abstract class BasePet(override val name: String): PetModel, BaseObjectViewModel
     override val toys = getStandardToys()
     override val food = getStandardFoods()
     override val options = getStandardOptions()
+    override var orientation = Orientation.LEFT
 
     override fun nextQuote(): String? {
         val (first, newList) = quotes.getNextInList()
@@ -39,10 +41,8 @@ abstract class BasePet(override val name: String): PetModel, BaseObjectViewModel
     override fun getNextState(): PetState {
         val nextPossibleStates = PetState.values().toSet() - setOf(state)
         val nextState = nextPossibleStates.random()
-        if (nextState == PetState.MOVING_LEFT) {
-            destination = getRandomTaskbarLocation(0, currentLocation.xCoordinate.toInt())
-        } else if (nextState == PetState.MOVING_RIGHT) {
-            destination = getRandomTaskbarLocation(currentLocation.xCoordinate.toInt(), screenSize.width)
+        if (nextState == PetState.MOVING) {
+            destination = getRandomTaskbarLocation()
         }
         return nextState
     }

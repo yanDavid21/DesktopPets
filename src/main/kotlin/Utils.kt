@@ -13,8 +13,7 @@ fun <T> List<T>.getNextInList(): Pair<T?, List<T>> {
 enum class PetState() {
     IDLE,
     SLEEPING,
-    MOVING_LEFT,
-    MOVING_RIGHT
+    MOVING
     //EATING
 }
 
@@ -24,6 +23,11 @@ enum class Options() {
     FEED,
     PLAY,
     SIT
+}
+
+enum class Orientation {
+    LEFT,
+    RIGHT
 }
 
 data class Location(val xCoordinate: Double, val yCoordinate: Double) {
@@ -52,9 +56,19 @@ data class Location(val xCoordinate: Double, val yCoordinate: Double) {
             return Location(newX, newY)
         }
 
-        fun getRandomTaskbarLocation(lowerBoundWidth: Int, upperBoundWidth:Int): Location {
+        fun getRandomTaskbarLocation(lowerBoundWidth: Int = 0, upperBoundWidth:Int = screenSize.width): Location {
             val range = upperBoundWidth - lowerBoundWidth
             return Location(Math.random() * range + lowerBoundWidth, screenSize.getHeight())
+        }
+
+        fun getOrientationFromLocations(source: Location, dest: Location): Orientation {
+            val (xCoordinate1, _) = source
+            val (xCoordinate2, _) = dest
+            if (xCoordinate1 > xCoordinate2) {
+                return Orientation.LEFT
+            } else {
+                return Orientation.RIGHT
+            }
         }
 
         private fun getStepDistance(coordinate1: Double, coordinate2: Double, stepDistance:Int): Double {

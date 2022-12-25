@@ -6,6 +6,7 @@ import view.PetActions
 import view.PetView
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import Location.Companion.getOrientationFromLocations
 
 const val MOVE_SPEED_PX_PER_30_MS = 1
 const val TICK_DURATION_IN_MS = 30L
@@ -24,14 +25,16 @@ class DesktopPetController(petModels: List<BasePet>) {
     }
 
     private fun updateLocationOnTickWhenMoving(petModel: PetModel, petView: PetActions) {
-        val updateLocationRunnable = { if (petModel.state == PetState.MOVING_RIGHT ||
-            petModel.state == PetState.MOVING_LEFT) updateSpriteLocation(petModel, petView) }
+        val updateLocationRunnable = { if (petModel.state == PetState.MOVING ) updateSpriteLocation(petModel, petView) }
         scheduleTaskPeriodically(updateLocationRunnable, TICK_DURATION_IN_MS)
     }
 
     private fun updateStatePeriodically(petModel: PetModel, petView: PetActions) {
         val updateStateRunnable = {
             petModel.state = petModel.getNextState()
+            if (petModel.state == PetState.MOVING) {
+                petModel.orientation = getOrientationFromLocations(petModel.currentLocation, petModel.destination)
+            }
             petView.renderSprite()
         }
         scheduleTaskPeriodically(updateStateRunnable, STATE_PERIOD_IN_MS, 10000)
