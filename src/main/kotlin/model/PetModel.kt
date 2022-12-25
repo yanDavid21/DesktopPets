@@ -1,11 +1,9 @@
 package model
 
-import Location
-import Options
-import Orientation
-import PetState
-import java.awt.GraphicsEnvironment
-import java.awt.Rectangle
+import utils.Location
+import utils.Options
+import utils.Orientation
+import utils.PetState
 import java.net.URL
 
 interface PetModel {

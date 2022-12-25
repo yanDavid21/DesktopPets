@@ -1,13 +1,12 @@
 package model
 
-import Location
-import Location.Companion.getRandomTaskbarLocation
-import Location.Companion.getStepLocation
-import Location.Companion.screenSize
-import Options
-import Orientation
-import PetState
-import getNextInList
+import utils.Location
+import utils.Location.Companion.getRandomTaskbarLocation
+import utils.Location.Companion.getStepLocation
+import utils.Options
+import utils.Orientation
+import utils.PetState
+import utils.getNextInList
 import java.net.URL
 import java.time.ZoneId
 import java.time.ZonedDateTime

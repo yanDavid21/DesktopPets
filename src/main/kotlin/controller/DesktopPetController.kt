@@ -6,7 +6,8 @@ import view.PetActions
 import view.PetView
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import Location.Companion.getOrientationFromLocations
+import utils.Location.Companion.getOrientationFromLocations
+import utils.PetState
 
 const val MOVE_SPEED_PX_PER_30_MS = 1
 const val TICK_DURATION_IN_MS = 30L

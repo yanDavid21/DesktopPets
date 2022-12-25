@@ -1,34 +1,7 @@
+package utils
+
 import java.awt.GraphicsEnvironment
 import java.awt.Rectangle
-
-fun <T> List<T>.getNextInList(): Pair<T?, List<T>> {
-    return if (this.isEmpty()) {
-        Pair(null, this)
-    } else {
-        val first = this.first()
-        Pair(first, this.drop(1) + first)
-    }
-}
-
-enum class PetState() {
-    IDLE,
-    SLEEPING,
-    MOVING
-    //EATING
-}
-
-enum class Options() {
-    PET,
-    TALK,
-    FEED,
-    PLAY,
-    SIT
-}
-
-enum class Orientation {
-    LEFT,
-    RIGHT
-}
 
 data class Location(val xCoordinate: Double, val yCoordinate: Double) {
     init {

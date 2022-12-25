@@ -1,8 +1,8 @@
 package model
 
-import Location
-import Options
-import Orientation
+import utils.Location
+import utils.Options
+import utils.Orientation
 import java.net.URL
 
 interface BaseObjectViewModel {

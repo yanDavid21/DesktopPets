@@ -1,7 +1,8 @@
 package model
 
-import Orientation
+import utils.Orientation
 import java.net.URL
+import utils.PetState
 
 
 class Trekker() : BasePet("Trekker") {

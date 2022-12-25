@@ -1,6 +1,5 @@
 package view
 
-import PetState
 
 interface PetActions: ViewObject {
 

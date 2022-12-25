@@ -1,6 +1,5 @@
 package view
 
-import PetState
 import model.BaseObjectViewModel
 
 class PetView(viewModel: BaseObjectViewModel): PetActions, BaseViewObject(viewModel) {
