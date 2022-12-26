@@ -22,7 +22,7 @@ open class BaseViewObject(private val viewModel: BaseObjectViewModel, protected 
         this.initializeJFrame()
         this.renderSprite()
         this.renderLocation()
-        this.addCustomCursor()
+        //this.addCustomCursor()
     }
 
     override fun display(shouldDisplay: Boolean) {
