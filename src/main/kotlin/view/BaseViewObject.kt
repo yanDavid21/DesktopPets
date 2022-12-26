@@ -3,12 +3,10 @@ package view
 import controller.UserActions
 import model.BaseObjectViewModel
 import java.awt.*
+import java.awt.image.BufferedImage
 import java.net.URL
-import javax.swing.Box
-import javax.swing.BoxLayout
-import javax.swing.ImageIcon
-import javax.swing.JFrame
-import javax.swing.JLabel
+import javax.imageio.ImageIO
+import javax.swing.*
 
 const val DEFAULT_IMAGE_WIDTH = 40
 const val DEFAULT_IMAGE_HEIGHT = 40
@@ -63,6 +61,10 @@ open class BaseViewObject(private val viewModel: BaseObjectViewModel, protected 
         frame.layout =  BoxLayout(frame.contentPane, BoxLayout.Y_AXIS)
         frame.contentPane.preferredSize = Dimension(500, 500)
         frame.pack()
+        val taskbar = Taskbar.getTaskbar()
+        val image: BufferedImage = ImageIO.read(javaClass.getResource("/fav_icon.png"))
+        taskbar.iconImage = image
+
     }
 
     private fun addCustomCursor() {
