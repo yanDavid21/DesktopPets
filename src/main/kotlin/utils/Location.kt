@@ -31,7 +31,7 @@ data class Location(val xCoordinate: Double, val yCoordinate: Double) {
 
         fun getRandomTaskbarLocation(lowerBoundWidth: Int = 0, upperBoundWidth:Int = screenSize.width): Location {
             val range = upperBoundWidth - lowerBoundWidth
-            return Location(Math.random() * range + lowerBoundWidth, screenSize.getHeight() + 30)
+            return Location(Math.random() * range + lowerBoundWidth, screenSize.getHeight() + 26)
         }
 
         fun getOrientationFromLocations(source: Location, dest: Location): Orientation {
