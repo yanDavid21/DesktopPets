@@ -34,6 +34,12 @@ data class Location(val xCoordinate: Double, val yCoordinate: Double) {
             return Location(Math.random() * range + lowerBoundWidth, screenSize.getHeight())
         }
 
+        fun getRandomLocationOnScreen(): Location {
+            val xCoord = (Math.random() * screenSize.width - 100) + 100
+            val yCoord = (Math.random() * screenSize.height - 500) + 500 // padding
+            return Location(xCoord, yCoord);
+        }
+
         fun getOrientationFromLocations(source: Location, dest: Location): Orientation {
             val (xCoordinate1, _) = source
             val (xCoordinate2, _) = dest

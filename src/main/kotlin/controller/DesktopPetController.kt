@@ -1,7 +1,10 @@
 package controller
 
-import model.BasePet
-import model.PetModel
+import model.Ball
+import model.BaseObjectModel
+import model.KinematicsModel
+import model.pets.BasePet
+import model.pets.PetModel
 import utils.Emotion
 import view.PetActions
 import view.PetView
@@ -9,7 +12,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import utils.Location.Companion.getOrientationFromLocations
 import utils.PetState
-import java.util.Timer
+import view.BaseViewObject
 
 const val MOVE_SPEED_PX_PER_30_MS = 1
 const val TICK_DURATION_IN_MS = 30L
@@ -19,6 +22,8 @@ const val EMOTION_PERIOD_IN_MS = 25000L
 class DesktopPetController(petModels: List<BasePet>): UserActions {
     private val pets: Map<String, Pair<PetModel, PetActions>> = petModels.associate { basePet ->
         Pair(basePet.name, Pair(basePet, PetView(basePet, this))) }
+    private val ball = Ball()
+    private val objects = mapOf(Pair(ball, BaseViewObject(ball, this)))
 
     fun start() {
         pets.values.forEach { (petModel, petView) ->
@@ -26,6 +31,11 @@ class DesktopPetController(petModels: List<BasePet>): UserActions {
             updateLocationOnTickWhenMoving(petModel, petView)
             updateStatePeriodically(petModel, petView)
             updateEmotePeriodically(petModel, petView)
+        }
+
+        objects.forEach {
+           it.value.display(true)
+            updateLocationOnTick(it.key, it.value)
         }
     }
 
@@ -36,6 +46,15 @@ class DesktopPetController(petModels: List<BasePet>): UserActions {
             second.renderSpriteWithEmote()
         }
     }
+
+    private fun updateLocationOnTick(model: KinematicsModel, view: BaseViewObject) {
+        val updateLocationRunnable = {
+            model.getNextLocation()
+            view.renderLocation()
+        }
+        scheduleTaskPeriodically(updateLocationRunnable, TICK_DURATION_IN_MS)
+    }
+
 
     private fun updateLocationOnTickWhenMoving(petModel: PetModel, petView: PetActions) {
         val updateLocationRunnable = { if (petModel.state == PetState.MOVING ) updateSpriteLocation(petModel, petView) }

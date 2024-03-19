@@ -12,7 +12,8 @@ enum class Options() {
     TALK,
     FEED,
     PLAY,
-    SIT
+    SIT,
+    REMOVE
 }
 
 enum class Orientation {

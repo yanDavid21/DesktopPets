@@ -1,7 +1,7 @@
 package view
 
 import controller.UserActions
-import model.PetModelViewModel
+import model.pets.PetModelViewModel
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
@@ -31,7 +31,8 @@ class PetView(private val petViewModel: PetModelViewModel, controller: UserActio
 
     override fun renderLocationWithEmote() {
         val (xLocation, yLocation) = petViewModel.currentLocation
-        frame.setLocation(xLocation.toInt() - (imageWidth / 2), yLocation.toInt() - 2 * imageHeight)
+        val heightOfImageWithEmote = 2 * imageHeight;
+        frame.setLocation(xLocation.toInt() - (imageWidth / 2), yLocation.toInt() - heightOfImageWithEmote)
     }
 
     private fun addClickListener() {

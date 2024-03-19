@@ -1,4 +1,4 @@
-package model
+package model.pets
 
 import utils.*
 import utils.Location.Companion.getRandomTaskbarLocation
@@ -57,6 +57,22 @@ abstract class BasePet(override val name: String): PetModel, PetModelViewModel {
             Emotion.HAPPY -> javaClass.getResource("/emotes/happy.png")
             Emotion.HAPPY2 -> javaClass.getResource("/emotes/happy_2.png")
             null -> null
+        }
+    }
+
+    protected fun getSpriteByFolderName(folderName: String): URL {
+        return if (orientation == Orientation.LEFT) {
+            when (state) {
+                PetState.IDLE -> javaClass.getResource("/$folderName/idle_left.gif")!!
+                PetState.MOVING -> javaClass.getResource("/$folderName/walking_left.gif")!!
+                PetState.SLEEPING -> javaClass.getResource("/$folderName/sleepy_left.gif")!!
+            }
+        } else {
+            when (state) {
+                PetState.IDLE -> javaClass.getResource("/$folderName/idle_right.gif")!!
+                PetState.MOVING -> javaClass.getResource("/$folderName/walking_right.gif")!!
+                PetState.SLEEPING -> javaClass.getResource("/$folderName/sleepy_right.gif")!!
+            }
         }
     }
 

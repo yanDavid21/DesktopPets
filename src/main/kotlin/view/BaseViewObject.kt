@@ -1,7 +1,7 @@
 package view
 
 import controller.UserActions
-import model.BaseObjectViewModel
+import model.BaseObjectModel
 import java.awt.*
 import java.net.URL
 import javax.swing.Box
@@ -10,11 +10,13 @@ import javax.swing.ImageIcon
 import javax.swing.JFrame
 import javax.swing.JLabel
 
-const val DEFAULT_IMAGE_WIDTH = 40
-const val DEFAULT_IMAGE_HEIGHT = 40
+const val DEFAULT_IMAGE_WIDTH = 50
+const val DEFAULT_IMAGE_HEIGHT = 50
 val transparentBackground = Color(0, 0, 0, 0)
 
-open class BaseViewObject(private val viewModel: BaseObjectViewModel, protected val controller: UserActions, protected val imageWidth: Int = DEFAULT_IMAGE_WIDTH,
+open class BaseViewObject(private val viewModel: BaseObjectModel,
+                          protected val controller: UserActions,
+                          protected val imageWidth: Int = DEFAULT_IMAGE_WIDTH,
                           protected val imageHeight: Int = DEFAULT_IMAGE_HEIGHT): ViewObject {
     protected val frame = JFrame()
 

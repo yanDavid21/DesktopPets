@@ -5,7 +5,7 @@ import utils.Options
 import utils.Orientation
 import java.net.URL
 
-interface BaseObjectViewModel {
+interface BaseObjectModel {
     val name: String
     val options: List<Options>
     val currentLocation: Location

@@ -1,5 +1,6 @@
-package model
+package model.pets
 
+import model.BaseObjectModel
 import utils.*
 import java.net.URL
 
@@ -24,7 +25,7 @@ interface PetModel {
     fun getNextEmotion(): Emotion
 }
 
-interface PetModelViewModel: BaseObjectViewModel {
+interface PetModelViewModel: BaseObjectModel {
     val emotion: Emotion?
     fun getEmote(): URL?
 }
