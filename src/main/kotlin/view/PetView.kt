@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
 
 
-class PetView(private val petViewModel: PetModelViewModel, controller: UserActions): PetActions, BaseViewObject(petViewModel, controller) {
+class PetView(private val petViewModel: PetModelViewModel, controller: UserActions): PetActions, BaseObjectView(petViewModel, controller) {
 
     init {
         this.renderSpriteWithEmote()

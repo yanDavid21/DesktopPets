@@ -1,7 +1,6 @@
 package controller
 
 import model.Ball
-import model.BaseObjectModel
 import model.KinematicsModel
 import model.pets.BasePet
 import model.pets.PetModel
@@ -12,7 +11,8 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import utils.Location.Companion.getOrientationFromLocations
 import utils.PetState
-import view.BaseViewObject
+import view.BaseObjectView
+import view.KinematicsView
 
 const val MOVE_SPEED_PX_PER_30_MS = 1
 const val TICK_DURATION_IN_MS = 30L
@@ -23,7 +23,7 @@ class DesktopPetController(petModels: List<BasePet>): UserActions {
     private val pets: Map<String, Pair<PetModel, PetActions>> = petModels.associate { basePet ->
         Pair(basePet.name, Pair(basePet, PetView(basePet, this))) }
     private val ball = Ball()
-    private val objects = mapOf(Pair(ball, BaseViewObject(ball, this)))
+    private val objects = mapOf(Pair(ball, KinematicsView(ball, this)))
 
     fun start() {
         pets.values.forEach { (petModel, petView) ->
@@ -47,7 +47,7 @@ class DesktopPetController(petModels: List<BasePet>): UserActions {
         }
     }
 
-    private fun updateLocationOnTick(model: KinematicsModel, view: BaseViewObject) {
+    private fun updateLocationOnTick(model: KinematicsModel, view:KinematicsView) {
         val updateLocationRunnable = {
             model.getNextLocation()
             view.renderLocation()

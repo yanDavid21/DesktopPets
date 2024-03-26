@@ -4,17 +4,14 @@ import controller.UserActions
 import model.BaseObjectModel
 import java.awt.*
 import java.net.URL
-import javax.swing.Box
-import javax.swing.BoxLayout
-import javax.swing.ImageIcon
-import javax.swing.JFrame
-import javax.swing.JLabel
+import javax.swing.*
+
 
 const val DEFAULT_IMAGE_WIDTH = 50
 const val DEFAULT_IMAGE_HEIGHT = 50
 val transparentBackground = Color(0, 0, 0, 0)
 
-open class BaseViewObject(private val viewModel: BaseObjectModel,
+open class BaseObjectView(private val viewModel: BaseObjectModel,
                           protected val controller: UserActions,
                           protected val imageWidth: Int = DEFAULT_IMAGE_WIDTH,
                           protected val imageHeight: Int = DEFAULT_IMAGE_HEIGHT): ViewObject {
@@ -41,7 +38,13 @@ open class BaseViewObject(private val viewModel: BaseObjectModel,
 
     override fun renderLocation() {
         val (xLocation, yLocation) = viewModel.currentLocation
-        frame.setLocation(xLocation.toInt() - (imageWidth / 2), yLocation.toInt() - imageHeight)
+        SwingUtilities.invokeLater {
+            frame.setLocation(
+                xLocation.toInt() - (imageWidth / 2),
+                yLocation.toInt() - imageHeight
+            )
+        }
+
     }
 
     protected fun getScaledSprite(imageURL:URL?): Component {
@@ -55,7 +58,7 @@ open class BaseViewObject(private val viewModel: BaseObjectModel,
         return image.getScaledInstance(width, height, Image.SCALE_DEFAULT)
     }
 
-    private fun initializeJFrame() {
+    protected open fun initializeJFrame() {
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         frame.isUndecorated = true
         frame.background =  transparentBackground
@@ -73,5 +76,4 @@ open class BaseViewObject(private val viewModel: BaseObjectModel,
             Point(imageWidth / 2, imageWidth / 2), "Custom cursor, a pixel art finger pointing."
         )
     }
-
 }
